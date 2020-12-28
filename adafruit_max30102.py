@@ -29,8 +29,6 @@ Implementation Notes
 
 
 """
-
-
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/solarslurpi/max30102.git"
 
@@ -50,8 +48,7 @@ LED_CONFIG = 0x09  # Pulse width and power of LEDs
 TEMP_INTG = 0x16  # Temperature value, whole number
 TEMP_FRAC = 0x17  # Temperature value, fraction
 REV_ID = 0xFE  # Part revision
-_
-PART_ID = 0xFF  # Part ID, normally 0x11
+_PART_ID = 0xFF  # Part ID, normally 0x11
 
 _I2C_ADDRESS = 0x57  # I2C address of the MAX30100 device
 
@@ -60,6 +57,8 @@ class MAX30102:
     """Library for the MAX30102 pulse oximetry and
   heart-rate monitor module
     """
+  _part_id = ROUnaryStruct(_PART_ID, "B")
 
-    def __init__(self, is2c_bus, address=_I2C_ADDRESS):
-        self.i2c_device = i2c_device.I2CDevice(i2c_bus, address)
+  def __init__(self, is2c_bus, address=_I2C_ADDRESS):
+    self.i2c_device = i2c_device.I2CDevice(is2c_bus, address)
+    print(self._part_id)
