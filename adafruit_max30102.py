@@ -6,7 +6,7 @@
 
 `adafruit_max30102`
 ================================================================================
-CircuitPython helper library for the MAX30102 pulse oximetry and heart-rate monitor struct module documentationmodule.
+CircuitPython helper library for the MAX30102 pulse oximetry and heart-rate monitor module.
 
 * Author(s): happyday
 
@@ -33,8 +33,8 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/solarslurpi/max30102.git"
 
 
-# Using bus device based on  `Adafruit's advice <https://circuitpython.readthedocs.io/en/latest/docs/design_guide.html#use-busdevice>`_
 from adafruit_bus_device import i2c_device
+from adafruit_register.i2c_struct import ROUnaryStruct
 
 INT_STATUS = 0x00  # Which interrupts are tripped
 INT_ENABLE = 0x01  # Which interrupts are active
@@ -55,10 +55,18 @@ _I2C_ADDRESS = 0x57  # I2C address of the MAX30100 device
 
 class MAX30102:
     """Library for the MAX30102 pulse oximetry and
-  heart-rate monitor module
-    """
-  _part_id = ROUnaryStruct(_PART_ID, "B")
+      heart-rate monitor module
+        """
+    _part_id = ROUnaryStruct(_PART_ID, "B")
 
-  def __init__(self, is2c_bus, address=_I2C_ADDRESS):
-    self.i2c_device = i2c_device.I2CDevice(is2c_bus, address)
-    print(self._part_id)
+    def __init__(self, is2c_bus, address=_I2C_ADDRESS):
+        self.i2c_device = i2c_device.I2CDevice(is2c_bus, address)
+
+    @property
+    def part_id(self):
+        """The module's part id
+
+        :return: The value of the part id stored in the module's PART ID register.
+        :rtype: unsigned byte
+        """
+        return self._part_id
